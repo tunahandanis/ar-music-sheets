@@ -8,7 +8,7 @@ import {
 import * as THREE from "three"
 import { useLoader } from "react-three-fiber"
 
-import img from "./logo512.png"
+import img from "./assets/transparent.png"
 
 function App() {
   const [placementMode, setPlacementMode] = useState(true)
@@ -39,17 +39,13 @@ function App() {
       <div
         id="zappar-button"
         role="button"
-        onKeyPress={() => {
-          setPlacementMode((currentPlacementMode) => !currentPlacementMode)
-        }}
         tabIndex={0}
         onClick={() => {
           setPlacementMode((currentPlacementMode) => !currentPlacementMode)
         }}
       >
-        Tap here to
-        {placementMode ? " place " : " pick up "}
-        the object
+        {placementMode ? "Place " : "Pick up "}
+        the sheet
       </div>
     </>
   )
