@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useSheetContext } from "../context/sheetContext"
+import { useMetronomeContext } from "../context/metronomeContext"
 import {
   ZapparCamera,
   InstantTracker,
@@ -14,6 +15,7 @@ import { Modal, Select, InputNumber } from "antd"
 
 const AR = () => {
   const { sheet, sheetIndex, updateSheet } = useSheetContext()
+  const { isRunning, startStop, slideTempo } = useMetronomeContext()
 
   const [placementMode, setPlacementMode] = useState(true)
   const [isSpinning, setIsSpinning] = useState(true)
@@ -100,6 +102,7 @@ const AR = () => {
           onChange={(value) => setSelectedPageSize(value)}
           step={0.5}
         />
+        <button onClick={startStop}>Start</button>
       </Modal>
     </>
   )
