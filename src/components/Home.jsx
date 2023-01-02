@@ -8,7 +8,7 @@ const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedSheet, setSelectedSheet] = useState()
 
-  const { sheet, updateSheet } = useSheetContext()
+  const { sheet, sheetIndex, updateSheet } = useSheetContext()
 
   return (
     <div className="home">
@@ -19,7 +19,7 @@ const Home = () => {
           onClick={() => navigate("/ar")}
           className={`${!sheet && "btn-disabled"}`}
         >
-          Launch AR
+          Launch
         </button>
       </div>
       <Modal
@@ -34,6 +34,7 @@ const Home = () => {
       >
         <Select
           placeholder="Select a sheet"
+          defaultValue={sheetIndex ?? null}
           optionFilterProp="children"
           onChange={(value) => setSelectedSheet(value)}
           options={[

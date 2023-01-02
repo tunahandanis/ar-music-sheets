@@ -12,13 +12,15 @@ const SheetContext = React.createContext()
 
 const SheetProvider = ({ children }) => {
   const [sheet, setSheet] = useState()
+  const [sheetIndex, setSheetIndex] = useState()
 
   const updateSheet = (newSheetIndex) => {
     setSheet(sheets[newSheetIndex])
+    setSheetIndex(newSheetIndex)
   }
 
   return (
-    <SheetContext.Provider value={{ sheet, updateSheet }}>
+    <SheetContext.Provider value={{ sheet, updateSheet, sheetIndex }}>
       {children}
     </SheetContext.Provider>
   )
