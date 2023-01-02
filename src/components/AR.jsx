@@ -10,6 +10,7 @@ import {
 
 import Spinner from "./Spinner"
 import Mesh from "./Mesh"
+import Nav from "./Nav"
 
 const AR = () => {
   const [placementMode, setPlacementMode] = useState(true)
@@ -19,6 +20,8 @@ const AR = () => {
 
   return (
     <>
+      <Nav isAr />
+
       {isSpinning && <Spinner />}
       <BrowserCompatibility />
       <ZapparCanvas>

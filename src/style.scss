@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto", sans-serif;
+}
+
+button {
+  font-family: inherit;
+}
+
+.arToggleBtn {
+  padding: 0.3em 0.8em;
+  font-size: 1.2rem;
+}
+
+.spinner {
+  height: 100vh;
+}
+
+.ant-spin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ant-spin-dot {
+  font-size: 64px !important;
+}
+
+.ant-spin-dot-item {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.home {
+  height: 100vh;
+  background-color: #000;
+}
+
+.home__button-container {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  button {
+    font-size: 1.3rem;
+    padding: 0.3em 0.8em;
+    margin: 0.4em 0;
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 5px;
+  }
+
+  a {
+    text-decoration: none;
+    margin: 0 auto;
+  }
+}
+
+nav {
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3em 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  a {
+    font-size: 1.1rem;
+    color: #fff;
+    text-decoration: none;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 0.3em 0.8em;
+    margin-left: 1.5em;
+  }
+
+  span {
+    margin-right: 0.8em;
+  }
+}
+
+.arNavHome {
+  color: #000;
+  border: 2px solid #000;
+}
