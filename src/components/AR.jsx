@@ -10,7 +10,7 @@ import {
 import Spinner from "./Spinner"
 import Mesh from "./Mesh"
 import Nav from "./Nav"
-import { Modal, Select } from "antd"
+import { Modal, Select, InputNumber } from "antd"
 
 const AR = () => {
   const { sheet, sheetIndex, updateSheet } = useSheetContext()
@@ -19,6 +19,8 @@ const AR = () => {
   const [isSpinning, setIsSpinning] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedSheet, setSelectedSheet] = useState(sheet)
+  const [selectedPageSize, setSelectedPageSize] = useState(2.5)
+  const [pageSize, setPageSize] = useState(2.5)
 
   const openModal = () => setIsModalOpen(true)
 
@@ -42,7 +44,7 @@ const AR = () => {
         >
           {sheet &&
             sheet.map((page, index) => (
-              <Mesh key={index} page={page} index={index} />
+              <Mesh key={index} page={page} index={index} pageSize={pageSize} />
             ))}
         </InstantTracker>
         <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
@@ -69,6 +71,7 @@ const AR = () => {
         open={isModalOpen}
         onOk={() => {
           updateSheet(selectedSheet)
+          setPageSize(selectedPageSize)
           setIsModalOpen(false)
         }}
         okText="Confirm"
@@ -89,6 +92,13 @@ const AR = () => {
               label: "Hammy's Boogie - Hammy Howell",
             },
           ]}
+        />
+        <InputNumber
+          min={1}
+          max={10}
+          defaultValue={pageSize}
+          onChange={(value) => setSelectedPageSize(value)}
+          step={0.5}
         />
       </Modal>
     </>
