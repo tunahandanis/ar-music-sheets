@@ -11,11 +11,12 @@ import {
 import Spinner from "./Spinner"
 import Mesh from "./Mesh"
 import Nav from "./Nav"
-import { Modal, Select, InputNumber } from "antd"
+import { Modal, Select, InputNumber, Slider } from "antd"
+import { PlayCircleOutlined, PauseCircleOutlined } from "@ant-design/icons"
 
 const AR = () => {
   const { sheet, sheetIndex, updateSheet } = useSheetContext()
-  const { isRunning, startStop, slideTempo } = useMetronomeContext()
+  const { isRunning, startStop, slideTempo, tempo } = useMetronomeContext()
 
   const [placementMode, setPlacementMode] = useState(true)
   const [isSpinning, setIsSpinning] = useState(true)
@@ -64,10 +65,7 @@ const AR = () => {
           the sheet
         </div>
       )}
-      {!isSpinning && (
-        <button onClick={() => updateSheet(0)}>Get La Dispute</button>
-      )}
-      {!isSpinning && <button onClick={() => updateSheet(1)}>Get Hammy</button>}
+
       <Modal
         title="Select a Sheet"
         open={isModalOpen}
@@ -102,7 +100,27 @@ const AR = () => {
           onChange={(value) => setSelectedPageSize(value)}
           step={0.5}
         />
-        <button onClick={startStop}>Start</button>
+        <div className="metronome">
+          <p className="metronome__tempo">{tempo} BPM</p>
+          <Slider
+            defaultValue={60}
+            min={30}
+            max={250}
+            onChange={(value) => slideTempo(value)}
+          />
+
+          {isRunning ? (
+            <PauseCircleOutlined
+              onClick={startStop}
+              style={{ fontSize: "1.9rem" }}
+            />
+          ) : (
+            <PlayCircleOutlined
+              onClick={startStop}
+              style={{ fontSize: "1.9rem" }}
+            />
+          )}
+        </div>
       </Modal>
     </>
   )
