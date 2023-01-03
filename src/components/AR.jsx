@@ -53,17 +53,15 @@ const AR = () => {
         <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
       </ZapparCanvas>
       {!isSpinning && (
-        <div
-          id="zappar-button"
-          role="button"
-          tabIndex={0}
+        <button
           onClick={() => {
             setPlacementMode((currentPlacementMode) => !currentPlacementMode)
           }}
+          className="placement-toggle"
         >
           {placementMode ? "Place " : "Pick up "}
           the sheet
-        </div>
+        </button>
       )}
 
       <Modal

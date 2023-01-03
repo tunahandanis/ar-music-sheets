@@ -135,3 +135,16 @@ nav {
 .ant-slider {
   width: 200px;
 }
+
+.placement-toggle {
+  font-size: 1.1rem;
+  padding: 0.3em 0.8em;
+  background: transparent;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-bottom: 1.5em;
+  border-radius: 5px;
+  border: 2px solid #000;
+}
