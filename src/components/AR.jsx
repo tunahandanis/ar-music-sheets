@@ -13,12 +13,14 @@ import Mesh from "./Mesh"
 import Nav from "./Nav"
 import { Modal, Select, InputNumber, Slider } from "antd"
 import { PlayCircleOutlined, PauseCircleOutlined } from "@ant-design/icons"
+// import img from "../assets/music-stand-white.png"
 
 const AR = () => {
   const { sheet, sheetIndex, updateSheet } = useSheetContext()
   const { isRunning, startStop, slideTempo, tempo } = useMetronomeContext()
 
-  const [placementMode, setPlacementMode] = useState(true)
+  const [sheetPlacementMode, setSheetPlacementMode] = useState(true)
+  // const [standPlacementMode, setStandPlacementMode] = useState(true)
   const [isSpinning, setIsSpinning] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedSheet, setSelectedSheet] = useState(sheet)
@@ -42,7 +44,7 @@ const AR = () => {
           }}
         />
         <InstantTracker
-          placementMode={placementMode}
+          placementMode={sheetPlacementMode}
           placementCameraOffset={[0, 0, -5]}
         >
           {sheet &&
@@ -50,16 +52,30 @@ const AR = () => {
               <Mesh key={index} page={page} index={index} pageSize={pageSize} />
             ))}
         </InstantTracker>
+        {/* <InstantTracker
+          placementMode={standPlacementMode}
+          placementCameraOffset={[0, 0, -5]}
+        >
+          <Mesh
+            page={img}
+            pageSize={3}
+            index={0}
+            meshTiltZ={-0.2}
+            meshTiltY={-0.6}
+          />
+        </InstantTracker> */}
         <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
       </ZapparCanvas>
       {!isSpinning && (
         <button
           onClick={() => {
-            setPlacementMode((currentPlacementMode) => !currentPlacementMode)
+            setSheetPlacementMode(
+              (currentPlacementMode) => !currentPlacementMode
+            )
           }}
           className="placement-toggle"
         >
-          {placementMode ? "Place " : "Pick up "}
+          {sheetPlacementMode ? "Place " : "Pick up "}
           the sheet
         </button>
       )}
@@ -70,10 +86,10 @@ const AR = () => {
         onOk={() => {
           updateSheet(selectedSheet)
           setPageSize(selectedPageSize)
-          setIsModalOpen(false)
+          closeModal()
         }}
         okText="Confirm"
-        onCancel={() => setIsModalOpen(false)}
+        onCancel={closeModal}
       >
         <Select
           placeholder="Select a sheet"
