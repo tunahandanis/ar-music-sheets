@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useSheetContext } from "../context/sheetContext"
 import { useMetronomeContext } from "../context/metronomeContext"
 import {
@@ -13,17 +13,21 @@ import Mesh from "./Mesh"
 import Nav from "./Nav"
 import { Modal, Select, InputNumber, Slider, Segmented } from "antd"
 import { PlayCircleOutlined, PauseCircleOutlined } from "@ant-design/icons"
-// import img from "../assets/music-stand-white.png"
 
 import * as tf from "@tensorflow/tfjs"
+import * as speech from "@tensorflow-models/speech-commands"
+
+// import img from "../assets/music-stand-white.png"
+
+/* import * as tf from "@tensorflow/tfjs"
 import * as handpose from "@tensorflow-models/handpose"
 import { drawHand } from "../util/util"
+ */
+/* import { passGesture } from "../handGestures/Pass"
+import { prevGesture } from "../handGestures/Prev" */
 
-import { passGesture } from "../handGestures/Pass"
-import { prevGesture } from "../handGestures/Prev"
-
-import * as fp from "fingerpose"
-import Webcam from "react-webcam"
+/* import * as fp from "fingerpose"
+import Webcam from "react-webcam" */
 
 const AR = () => {
   const { sheet, sheetIndex, updateSheet } = useSheetContext()
@@ -32,7 +36,6 @@ const AR = () => {
   const [sheetPlacementMode, setSheetPlacementMode] = useState(true)
   const [isMultiple, setIsMultiple] = useState(true)
   const [isMultipleSelected, setIsMultipleSelected] = useState()
-  // const [standPlacementMode, setStandPlacementMode] = useState(true)
   const [isSpinning, setIsSpinning] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedSheet, setSelectedSheet] = useState()
@@ -40,17 +43,74 @@ const AR = () => {
   const [pageSize, setPageSize] = useState(2.5)
   const [currentPage, setCurrentPage] = useState(0)
 
-  console.log(sheet)
-  console.log(selectedSheet)
+  const [model, setModel] = useState(null)
+  const [action, setAction] = useState(null)
+  const [labels, setLabels] = useState(null)
 
-  const cameraRef = useRef()
+  /* const cameraRef = useRef()
   const intervalRef = useRef()
+ */
+
+  const currentPageRef = useRef(currentPage)
+  const sheetRef = useRef(sheet)
 
   const [count, setCount] = useState(0)
 
-  const runHandpose = async () => {}
+  const loadModel = async () => {
+    const recognizer = await speech.create("BROWSER_FFT")
+    console.log("Model Loaded")
+    await recognizer.ensureModelLoaded()
+    console.log(recognizer.wordLabels())
+    setModel(recognizer)
+    setLabels(recognizer.wordLabels())
+  }
 
-  const detect = async (net) => {
+  useEffect(() => {
+    loadModel()
+  }, [])
+
+  useEffect(() => {
+    currentPageRef.current = currentPage
+    sheetRef.current = sheet
+  }, [currentPage, sheet])
+
+  function argMax(arr) {
+    return arr.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1]
+  }
+
+  const recognizeCommands = async () => {
+    console.log("Listening for commands")
+    model.listen(
+      (result) => {
+        // console.log(labels[argMax(Object.values(result.scores))])
+        const newAction = labels[argMax(Object.values(result.scores))]
+        console.log(newAction)
+        if (
+          newAction === "right" &&
+          sheetRef.current &&
+          currentPageRef.current < sheetRef.current.length - 1
+        ) {
+          console.log(currentPageRef.current)
+          setCurrentPage((prev) => prev + 1)
+        }
+
+        if (
+          newAction === "left" &&
+          sheetRef.current &&
+          currentPageRef.current > 0
+        ) {
+          console.log(currentPageRef.current)
+
+          setCurrentPage((prev) => prev - 1)
+        }
+      },
+      { includeSpectrogram: true, probabilityThreshold: 0.9 }
+    )
+  }
+
+  /* const runHandpose = async () => {} */
+
+  /* const detect = async (net) => {
     // Check data is available
     if (isMultiple) return
 
@@ -112,9 +172,9 @@ const AR = () => {
 
       ///////// NEW STUFF ADDED GESTURE HANDLING
     }
-  }
+  } */
 
-  useEffect(() => {
+  /* useEffect(() => {
     let intervalId
     const runHandpose = async () => {
       const net = await handpose.load()
@@ -128,7 +188,7 @@ const AR = () => {
     runHandpose()
 
     return () => clearInterval(intervalId)
-  }, [isMultiple, currentPage])
+  }, [isMultiple, currentPage]) */
 
   const openModal = () => setIsModalOpen(true)
 
@@ -191,8 +251,7 @@ const AR = () => {
           the sheet
         </button>
       )}
-
-      <div style={{ zIndex: "15" }}>{count}</div>
+      <button onClick={recognizeCommands}>Activate Voice Recognition</button>
 
       <Modal
         title="Select a Sheet"
@@ -209,6 +268,8 @@ const AR = () => {
           if (isMultipleSelected !== undefined) {
             setIsMultiple(isMultipleSelected)
           }
+
+          recognizeCommands()
 
           closeModal()
         }}
@@ -270,7 +331,7 @@ const AR = () => {
           block
         />
       </Modal>
-      {!isMultiple && (
+      {/* {!isMultiple && (
         <Webcam
           ref={cameraRef}
           style={{
@@ -288,7 +349,7 @@ const AR = () => {
             facingMode: "environment",
           }}
         />
-      )}
+      )} */}
     </>
   )
 }

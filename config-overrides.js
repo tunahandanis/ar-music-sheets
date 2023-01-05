@@ -11,9 +11,13 @@ module.exports = {
       }
       return rule
     })
+    config.resolve.fallback = {
+      fs: false,
+    }
 
     return config
   },
+
   jest: function (config) {
     return config
   },
