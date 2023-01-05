@@ -11,7 +11,7 @@ import {
 import Spinner from "./Spinner"
 import Mesh from "./Mesh"
 import Nav from "./Nav"
-import { Modal, Select, InputNumber, Slider } from "antd"
+import { Modal, Select, InputNumber, Slider, Segmented } from "antd"
 import { PlayCircleOutlined, PauseCircleOutlined } from "@ant-design/icons"
 // import img from "../assets/music-stand-white.png"
 
@@ -20,6 +20,7 @@ import * as handpose from "@tensorflow-models/handpose"
 import { drawHand } from "../util/util"
 
 import { passGesture } from "../handGestures/Pass"
+import { prevGesture } from "../handGestures/Prev"
 
 import * as fp from "fingerpose"
 import Webcam from "react-webcam"
@@ -29,28 +30,30 @@ const AR = () => {
   const { isRunning, startStop, slideTempo, tempo } = useMetronomeContext()
 
   const [sheetPlacementMode, setSheetPlacementMode] = useState(true)
+  const [isMultiple, setIsMultiple] = useState(true)
+  const [isMultipleSelected, setIsMultipleSelected] = useState()
   // const [standPlacementMode, setStandPlacementMode] = useState(true)
   const [isSpinning, setIsSpinning] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedSheet, setSelectedSheet] = useState(sheet)
+  const [selectedSheet, setSelectedSheet] = useState()
   const [selectedPageSize, setSelectedPageSize] = useState(2.5)
   const [pageSize, setPageSize] = useState(2.5)
+  const [currentPage, setCurrentPage] = useState(0)
+
+  console.log(sheet)
+  console.log(selectedSheet)
 
   const cameraRef = useRef()
+  const intervalRef = useRef()
 
   const [count, setCount] = useState(0)
 
-  const runHandpose = async () => {
-    const net = await handpose.load()
-    console.log("Handpose model loaded.")
-    //  Loop and detect hands
-    setInterval(() => {
-      detect(net)
-    }, 10000)
-  }
+  const runHandpose = async () => {}
 
   const detect = async (net) => {
     // Check data is available
+    if (isMultiple) return
+
     if (
       typeof cameraRef.current !== "undefined" &&
       cameraRef.current !== null &&
@@ -75,8 +78,28 @@ const AR = () => {
         const GE = new fp.GestureEstimator([passGesture])
         const gesture = await GE.estimate(hand[0].landmarks, 4)
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-          console.log(gesture.gestures)
-          setCount((prev) => prev + 1)
+          if (currentPage < sheet.length - 1) {
+            setCurrentPage((prev) => prev + 1)
+            console.log(currentPage)
+            console.log(sheet.length)
+          }
+
+          const confidence = gesture.gestures.map(
+            (prediction) => prediction.confidence
+          )
+          const maxConfidence = confidence.indexOf(
+            Math.max.apply(null, confidence)
+          )
+        }
+      }
+
+      if (hand.length > 0) {
+        const GE = new fp.GestureEstimator([prevGesture])
+        const gesture = await GE.estimate(hand[0].landmarks, 4)
+        if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
+          if (currentPage > 0) {
+            setCurrentPage((prev) => prev - 1)
+          }
 
           const confidence = gesture.gestures.map(
             (prediction) => prediction.confidence
@@ -92,8 +115,20 @@ const AR = () => {
   }
 
   useEffect(() => {
+    let intervalId
+    const runHandpose = async () => {
+      const net = await handpose.load()
+      console.log("Handpose model loaded.")
+      //  Loop and detect hands
+      intervalId = setInterval(() => {
+        detect(net)
+      }, 1000)
+    }
+
     runHandpose()
-  }, [])
+
+    return () => clearInterval(intervalId)
+  }, [isMultiple, currentPage])
 
   const openModal = () => setIsModalOpen(true)
 
@@ -116,9 +151,18 @@ const AR = () => {
           placementCameraOffset={[0, 0, -5]}
         >
           {sheet &&
+            isMultiple &&
             sheet.map((page, index) => (
               <Mesh key={index} page={page} index={index} pageSize={pageSize} />
             ))}
+          {sheet && !isMultiple && (
+            <Mesh
+              key={0}
+              index={0}
+              page={sheet[currentPage]}
+              pageSize={pageSize}
+            />
+          )}
         </InstantTracker>
         {/* <InstantTracker
           placementMode={standPlacementMode}
@@ -147,14 +191,25 @@ const AR = () => {
           the sheet
         </button>
       )}
+
       <div style={{ zIndex: "15" }}>{count}</div>
 
       <Modal
         title="Select a Sheet"
         open={isModalOpen}
         onOk={() => {
-          updateSheet(selectedSheet)
-          setPageSize(selectedPageSize)
+          if (selectedSheet !== undefined) {
+            updateSheet(selectedSheet)
+          }
+
+          if (selectedPageSize !== undefined) {
+            setPageSize(selectedPageSize)
+          }
+
+          if (isMultipleSelected !== undefined) {
+            setIsMultiple(isMultipleSelected)
+          }
+
           closeModal()
         }}
         okText="Confirm"
@@ -204,24 +259,36 @@ const AR = () => {
             />
           )}
         </div>
+        <Segmented
+          className="segmented"
+          options={["Multiple", "Single"]}
+          defaultValue="Multiple"
+          onChange={(value) => {
+            if (value === "Multiple") setIsMultipleSelected(true)
+            else setIsMultipleSelected(false)
+          }}
+          block
+        />
       </Modal>
-      <Webcam
-        ref={cameraRef}
-        style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 9,
-          width: 1,
-          height: 1,
-        }}
-        videoConstraints={{
-          facingMode: "environment",
-        }}
-      />
+      {!isMultiple && (
+        <Webcam
+          ref={cameraRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 1,
+            height: 1,
+          }}
+          videoConstraints={{
+            facingMode: "environment",
+          }}
+        />
+      )}
     </>
   )
 }
