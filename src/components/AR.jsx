@@ -14,20 +14,7 @@ import Nav from "./Nav"
 import { Modal, Select, InputNumber, Slider, Segmented } from "antd"
 import { PlayCircleOutlined, PauseCircleOutlined } from "@ant-design/icons"
 
-import * as tf from "@tensorflow/tfjs"
 import * as speech from "@tensorflow-models/speech-commands"
-
-// import img from "../assets/music-stand-white.png"
-
-/* import * as tf from "@tensorflow/tfjs"
-import * as handpose from "@tensorflow-models/handpose"
-import { drawHand } from "../util/util"
- */
-/* import { passGesture } from "../handGestures/Pass"
-import { prevGesture } from "../handGestures/Prev" */
-
-/* import * as fp from "fingerpose"
-import Webcam from "react-webcam" */
 
 const AR = () => {
   const { sheet, sheetIndex, updateSheet } = useSheetContext()
@@ -44,17 +31,10 @@ const AR = () => {
   const [currentPage, setCurrentPage] = useState(0)
 
   const [model, setModel] = useState(null)
-  const [action, setAction] = useState(null)
   const [labels, setLabels] = useState(null)
-
-  /* const cameraRef = useRef()
-  const intervalRef = useRef()
- */
 
   const currentPageRef = useRef(currentPage)
   const sheetRef = useRef(sheet)
-
-  const [count, setCount] = useState(0)
 
   const loadModel = async () => {
     const recognizer = await speech.create("BROWSER_FFT")
@@ -108,88 +88,6 @@ const AR = () => {
     )
   }
 
-  /* const runHandpose = async () => {} */
-
-  /* const detect = async (net) => {
-    // Check data is available
-    if (isMultiple) return
-
-    if (
-      typeof cameraRef.current !== "undefined" &&
-      cameraRef.current !== null &&
-      cameraRef.current.video.readyState === 4
-    ) {
-      // Get Video Properties
-      const video = cameraRef.current.video
-      const videoWidth = cameraRef.current.video.videoWidth
-      const videoHeight = cameraRef.current.video.videoHeight
-
-      // Set video width
-      cameraRef.current.video.width = videoWidth
-      cameraRef.current.video.height = videoHeight
-
-      // Make Detections
-      const hand = await net.estimateHands(video)
-      // console.log(hand);
-
-      ///////// NEW STUFF ADDED GESTURE HANDLING
-
-      if (hand.length > 0) {
-        const GE = new fp.GestureEstimator([passGesture])
-        const gesture = await GE.estimate(hand[0].landmarks, 4)
-        if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-          if (currentPage < sheet.length - 1) {
-            setCurrentPage((prev) => prev + 1)
-            console.log(currentPage)
-            console.log(sheet.length)
-          }
-
-          const confidence = gesture.gestures.map(
-            (prediction) => prediction.confidence
-          )
-          const maxConfidence = confidence.indexOf(
-            Math.max.apply(null, confidence)
-          )
-        }
-      }
-
-      if (hand.length > 0) {
-        const GE = new fp.GestureEstimator([prevGesture])
-        const gesture = await GE.estimate(hand[0].landmarks, 4)
-        if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-          if (currentPage > 0) {
-            setCurrentPage((prev) => prev - 1)
-          }
-
-          const confidence = gesture.gestures.map(
-            (prediction) => prediction.confidence
-          )
-          const maxConfidence = confidence.indexOf(
-            Math.max.apply(null, confidence)
-          )
-        }
-      }
-
-      ///////// NEW STUFF ADDED GESTURE HANDLING
-    }
-  } */
-
-  /* useEffect(() => {
-    let intervalId
-    const runHandpose = async () => {
-      const net = await handpose.load()
-      console.log("Handpose model loaded.")
-      //  Loop and detect hands
-      intervalId = setInterval(() => {
-        detect(net)
-      }, 1000)
-    }
-
-    runHandpose()
-
-    return () => clearInterval(intervalId)
-  }, [isMultiple, currentPage]) */
-
   const openModal = () => setIsModalOpen(true)
 
   const closeModal = () => setIsModalOpen(false)
@@ -224,18 +122,7 @@ const AR = () => {
             />
           )}
         </InstantTracker>
-        {/* <InstantTracker
-          placementMode={standPlacementMode}
-          placementCameraOffset={[0, 0, -5]}
-        >
-          <Mesh
-            page={img}
-            pageSize={3}
-            index={0}
-            meshTiltZ={-0.2}
-            meshTiltY={-0.6}
-          />
-        </InstantTracker> */}
+
         <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
       </ZapparCanvas>
       {!isSpinning && (
@@ -330,25 +217,6 @@ const AR = () => {
           block
         />
       </Modal>
-      {/* {!isMultiple && (
-        <Webcam
-          ref={cameraRef}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zindex: 9,
-            width: 1,
-            height: 1,
-          }}
-          videoConstraints={{
-            facingMode: "environment",
-          }}
-        />
-      )} */}
     </>
   )
 }

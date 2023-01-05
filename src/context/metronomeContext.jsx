@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
-import { withRouter } from "react-router-dom"
 
 import silence from "../assets/silence.mp3"
-/* import { useLocation } from "react-router-dom"
- */
+
 import { AudioContext } from "standardized-audio-context"
 
 const MetronomeContext = React.createContext()
@@ -12,15 +10,9 @@ const MetronomeProvider = ({ children }) => {
   const [isRunning, setIsRunning] = useState(false)
   const [tempo, setTempo] = useState(60)
 
-  /* const location = useLocation() */
-
   const intervalRef = useRef()
   const audioContext = useRef(null)
   const tempoRef = useRef(tempo)
-
-  /*   useEffect(() => {
-    stop()
-  }, [location]) */
 
   useEffect(() => {
     tempoRef.current = tempo
@@ -37,16 +29,6 @@ const MetronomeProvider = ({ children }) => {
   const turnOff = () => {
     setIsRunning(false)
   }
-
-  // CHANGE TEMPO
-
-  /* const increaseTempo = () => {
-    dispatch({ type: ACTIONS.INCREASE_TEMPO })
-  } */
-
-  /* const decreaseTempo = () => {
-    dispatch({ type: ACTIONS.DECREASE_TEMPO })
-  } */
 
   const slideTempo = (e) => {
     setTempo(e)
