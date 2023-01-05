@@ -86,20 +86,18 @@ nav {
     font-size: 1.1rem;
     color: #fff;
     text-decoration: none;
-    border: 2px solid #fff;
     border-radius: 5px;
-    padding: 0.3em 0.8em;
-    margin-left: 1.5em;
+    margin-left: 1.1em;
+    margin-top: -0.5em;
+
+    img {
+      height: 50px;
+    }
   }
 
   span {
     margin-right: 0.8em;
   }
-}
-
-.arNavHome {
-  color: #000;
-  border: 2px solid #000;
 }
 
 .ant-modal-body {
