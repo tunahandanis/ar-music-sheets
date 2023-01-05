@@ -251,7 +251,6 @@ const AR = () => {
           the sheet
         </button>
       )}
-      <button onClick={recognizeCommands}>Activate Voice Recognition</button>
 
       <Modal
         title="Select a Sheet"
