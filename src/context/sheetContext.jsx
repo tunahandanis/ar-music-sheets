@@ -5,8 +5,12 @@ import laDispute2 from "../assets/la-dispute-2.png"
 import laDispute3 from "../assets/la-dispute-3.png"
 
 import hammy1 from "../assets/hammy-1.png"
+import hammy2 from "../assets/hammy-2.png"
 
-const sheets = [[laDispute1, laDispute2, laDispute3], [hammy1]]
+const sheets = [
+  [laDispute1, laDispute2, laDispute3],
+  [hammy1, hammy2],
+]
 
 const SheetContext = React.createContext()
 
