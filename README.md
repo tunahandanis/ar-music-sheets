@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+## What it is
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ZappSheets is an AR/MR application for musicians to practice their craft
 
-## Available Scripts
+## How to run
 
 In the project directory, you can run:
 
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You must go to `https` port.
+Open [https://localhost:3000](https://localhost:3000) to view it in your web browser.
+Open https://192...:3000 to view it in your mobile browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Inspiration
 
-### `npm test`
+As a self-taught amateur pianist, I always struggled with reading music, for the reasons that, apart from the lack of an instructor I guess, I don't have a music stand to place the sheets, and printing them is a pain anyway. Even if I did, switching sheet pages while playing is a common problem among musicians. That's how I came up with the idea of projecting music sheets on phone camera/VR headset.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## What it does
 
-### `npm run build`
+ZappSheets is conceptually a Mixed Reality(MR) application, to be used with a headset, but I was able to build a nice demo with the help of Universal AR from ZapWorks. It projects music sheets on camera, allows the option to display all pages side-by-side or to use voice commands (left-right) to switch between pages without even taking your hand off the instrument. It also has a built-in metronome to help keep time during practice.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How we built it
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The web application is built with **React.js**, all augmented-reality features with **Universal AR's React-Three.js SDK**, speech recognition with **TensorFlow**, and version control with **Git**.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Challenges we ran into
 
-### `npm run eject`
+Ironically, the hardest part was making the demo video. I had to record the phone screen, my speech, and piano track separately on 3 different devices, then edit them together; and who would have thought my video editing skills were terrible?
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Accomplishments that we're proud of
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Overall, I believe that my project idea was decent and I managed to execute it pretty well. I worked with a lot of tools that I was unfamiliar with, but managed to build what I had in mind.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## What we learned
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+So many cool stuff. I took my first step into AR/VR/MR world, with amazing tools from ZapWorks. I managed to implement my first ML model. I also did gesture recognition to switch pages, but that turned out to be less useful than I thought, or I could've done it better :)
 
-## Learn More
+## What's next for ZappSheets
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Gesture recognition to switch pages
+- Uploading music sheets
+- Projecting a music stand to put sheets on
+- A lot of other stuff for the built-in metronome (subdivisions, note stress, swing rhythm etc.)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
