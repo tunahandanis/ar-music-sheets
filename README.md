@@ -2,7 +2,7 @@
 
 ZappSheets is an AR/MR application for musicians to practice their craft
 
-[Demo](https://webxr.run/pvd6GPXex4my0)
+[Demo](https://webxr.run/pvd6GPXex4my0) (Best used in mobile)
 
 ## How to run
 
