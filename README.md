@@ -9,8 +9,8 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-You must go to `https` port.
-Open [https://localhost:3000](https://localhost:3000) to view it in your web browser.
+You must go to `https` port.\
+Open [https://localhost:3000](https://localhost:3000) to view it in your web browser.\
 Open https://192...:3000 to view it in your mobile browser.
 
 ## Inspiration
