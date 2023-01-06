@@ -1,13 +1,13 @@
 import AR from "./components/AR"
 import Home from "./components/Home"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { HashRouter, Routes, Route } from "react-router-dom"
 import { Suspense } from "react"
 import { Loader } from "@zappar/zappar-react-three-fiber"
 import Nav from "./components/Nav"
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route
           index
@@ -27,7 +27,7 @@ function App() {
           }
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
