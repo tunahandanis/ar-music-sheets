@@ -6,6 +6,10 @@ ZappSheets is an AR/MR application for musicians to practice their craft
 
 In the project directory, you can run:
 
+### `npm install`
+
+Then:
+
 ### `npm start`
 
 Runs the app in the development mode.\
