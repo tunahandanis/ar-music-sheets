@@ -8,6 +8,8 @@ import {
   BrowserCompatibility,
 } from "@zappar/zappar-react-three-fiber"
 
+import * as tfjs from "@tensorflow/tfjs"
+
 import Spinner from "./Spinner"
 import Mesh from "./Mesh"
 import Nav from "./Nav"
